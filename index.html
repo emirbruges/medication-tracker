@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title></title>
+		<link href="css/style.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="topbar">
+			<div class="sidebar-switch">
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+
+			<div class="add-med">
+				<form>
+					<!-- <input type="" name="" value=""> -->
+					<!-- <button type=""></button> -->
+				</form>
+			</div>
+			<div class="logo">
+				<span>MT</span>
+			</div>
+			<p class="title">Medical tracker</p>
+		</div>
+
+		<!-- . -->
+
+		<div class="sidebar">
+			<div class="medications"></div>
+		</div>
+
+		<main>
+			<p>something soon...</p>
+		</main>
+		<script>
+			const sidebarSwitch = document.querySelector(".sidebar-switch");
+			const sidebarEl = document.querySelector(".sidebar");
+			const mainEl = document.querySelector("main");
+
+			sidebarSwitch.addEventListener("click", (element) => {
+				sidebarSwitch.classList.toggle("active");
+				sidebarEl.classList.toggle("active");
+				mainEl.classList.toggle("sidebar-active");
+			});
+		</script>
+	</body>
+</html>
