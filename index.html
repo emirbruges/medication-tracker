@@ -3,8 +3,9 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title></title>
+		<title>Medical tracker</title>
 		<link href="css/style.css" rel="stylesheet" />
+		<link href="css/toast.css" rel="stylesheet" />
 	</head>
 	<body>
 		<div class="topbar">
@@ -15,27 +16,108 @@
 			</div>
 
 			<div class="add-med">
-				<form>
-					<!-- <input type="" name="" value=""> -->
-					<!-- <button type=""></button> -->
+				<form id="medForm" action="#">
+					<div class="form-group">
+						<label for="medication">Medication name:</label>
+						<input
+							type="text"
+							placeholder="Paracetamol"
+							id="medication"
+							name="medication"
+							required
+						/>
+					</div>
+					<div class="form-group">
+						<label for="when">When:</label>
+						<input
+							type="text"
+							placeholder="1-0-0"
+							value="1-0-0"
+							id="when"
+							name="when"
+							required
+						/>
+					</div>
+					<div class="form-group">
+						<label for="weight">Weight: </label>
+						<input
+							type="number"
+							id="weight"
+							name="weight"
+							min="0"
+							max="999"
+							required
+						/>
+					</div>
+					<div class="form-group">
+						<label for="miligrams">mg</label>
+						<input
+							type="radio"
+							id="miligrams"
+							name="weight-type"
+							value="mg"
+							required
+						/>
+						<label for="grams">g</label>
+						<input
+							type="radio"
+							id="grams"
+							name="weight-type"
+							value="g"
+							required
+						/>
+					</div>
+					<div class="form-group">
+						<label for="startDate">Start date:</label>
+						<input
+							type="date"
+							name="startDate"
+							id="startDate"
+							required
+						/>
+					</div>
+
+					<div class="form-group">
+						<input type="submit" value="Submit medication" />
+					</div>
 				</form>
 			</div>
-			<div class="logo">
+			<div class="logo main-page">
 				<span>MT</span>
 			</div>
-			<p class="title">Medical tracker</p>
+			<p class="title main-page">Medical tracker</p>
 		</div>
 
 		<!-- . -->
 
-		<div class="sidebar">
-			<div class="medications"></div>
-		</div>
+		<aside class="sidebar">
+			<div class="med-list" id="medList"></div>
+		</aside>
 
 		<main>
-			<p>something soon...</p>
+			<div class="toast-container"></div>
+			<div id="startPage">
+				<h1>Welcome to your Medication Tracker</h1>
+				<p>
+					Save the medications you are currently taking, track dosage
+					patterns, expected and perceived reactions, side effects,
+					dependencies, and other important information your doctor
+					needs to know.
+				</p>
+				<p>
+					Your medication should be saved in the sidebar, click in the
+					name of the medication you want to change or see the
+					information of.
+				</p>
+			</div>
+			<div
+				class="med-details"
+				id="medDetails"
+				style="display: none"
+			></div>
 		</main>
 		<script>
+			// Sidebar Switch
 			const sidebarSwitch = document.querySelector(".sidebar-switch");
 			const sidebarEl = document.querySelector(".sidebar");
 			const mainEl = document.querySelector("main");
@@ -46,5 +128,7 @@
 				mainEl.classList.toggle("sidebar-active");
 			});
 		</script>
+		<script type="text/javascript" src="js/toast.js"></script>
+		<script type="text/javascript" src="js/medication.js"></script>
 	</body>
 </html>
