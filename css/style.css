@@ -24,7 +24,10 @@ body {
 	margin: 0;
 }
 main {
-	padding-top: 4rem;
+	flex: 1px;
+	padding: 20rem;
+	padding-top: 5rem;
+	overflow-y: auto;
 	transition: 0.3s ease;
 }
 
@@ -137,9 +140,32 @@ main {
 	transform: translate(-50%, -50%) rotate(-45deg);
 }
 
+/* Sidebar */
+
+.med-list {
+	display: grid;
+	gap: 3rem;
+}
+
+div.med-list {
+	position: absolute;
+	top: 0;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	padding: 1rem;
+	left: 1rem;
+	width: 80%;
+
+	border-radius: 16px;
+	background-color: var(--background-main);
+	font: inherit;
+	font-size: 20px;
+	cursor: pointer;
+}
+
 /* Form styling */
 
-form {
+#medForm {
 	display: grid;
 	max-width: 85rem;
 	align-items: center;
@@ -147,18 +173,69 @@ form {
 	gap: 1fr;
 	grid-template-columns: 2.7fr 2fr 1fr 1fr 2fr 0.5fr;
 }
-input,
-label {
+
+#medForm form {
+	display: grid;
+	gap: 1rem;
+}
+
+#medForm input,
+#medForm label,
+#medForm button,
+#medForm textarea {
 	font: inherit;
 	color: inherit;
 }
 
-input {
+#medForm button,
+#medForm textarea,
+#medForm input {
 	background-color: var(--background-main);
+	accent-color: var(--accent-info);
 }
 
+button,
 input[type="submit"] {
 	padding: 0.5em 1em;
 	border-radius: 8em;
 	font-size: 0.8em;
+}
+
+/* #medDetails { */
+/* } */
+.card {
+	background: var(--background-highlight);
+	border-radius: 0.75rem;
+	padding: 1rem;
+	box-shadow: var(--background-alt);
+	margin-bottom: 1rem;
+}
+
+#detailsForm .form-group {
+	margin-bottom: 0.75rem;
+}
+
+#detailsForm .form-group label {
+	display: block;
+	font-weight: 600;
+	margin-bottom: 4px;
+}
+#detailsForm .form-group label,
+#detailsForm .form-group textarea {
+	width: 100%;
+	padding: 0.5px;
+	border: 1px solid var(--text-primary);
+	background-color: var(--background-alt);
+	color: var(--text-primary);
+	border-radius: 4px;
+	font-size: 14px;
+}
+
+#detailsForm .form-group textarea {
+	min-height: 80px;
+}
+
+#detailsForm button {
+	background-color: var(--background-main);
+	color: inherit;
 }

@@ -20,7 +20,10 @@ function loadMeds() {
 }
 
 function saveMeds(meds) {
-	localStorage.setItem(STORAGE_KEY, JSON.stringify(meds));
+	localStorage.setItem(
+		STORAGE_KEY,
+		JSON.stringify(meds) ? JSON.stringify(meds) : "[]",
+	);
 }
 
 function renderList() {
@@ -28,7 +31,7 @@ function renderList() {
 	medsEl.innerHTML = meds.length
 		? meds
 				.map((m, i) => {
-					const label = `${i + 1}. ${m.name}`;
+					const label = `${i + 1}. ${m.medication}`;
 					return `<div class="med-item" onclick="openMed(${i})">${label}</div>`;
 				})
 				.join("")
@@ -50,6 +53,9 @@ function openMed(index) {
 	const diffDays = Math.floor((now - started) / (1000 * 60 * 60 * 24));
 
 	medsDetailsEl.innerHTML = `
+		<div class="card">
+			<h1>${index + 1}. ${m.medication} ${m.weight}${m.weightType} ${m.when}</h1>
+			<p>Since: ${m.startDate} (${diffDays} ${diffDays == 1 ? "day" : "days"} taking ${m.medication}).</p>
 			<form id="detailsForm">
 				<div class="form-group">
 					<label for="expected">Expected reaction</label>
@@ -65,10 +71,11 @@ function openMed(index) {
 				</div>
 				<div class="form-group">
 					<label for="dependency">Dependency</label>
-					<input type="text" name="dependency" value="${m.dependency || ""}">
+					<textarea name="dependency" value="${m.dependency || ""}"></textarea>
 				</div>
 				<button type="submit">Save details</button>
-			</form>`;
+			</form>
+		</div>`;
 
 	document
 		.getElementById("detailsForm")
@@ -80,7 +87,7 @@ function openMed(index) {
 			m.sideEfffects = fd.get("sideEfffects");
 			m.dependency = fd.get("dependency");
 			meds[index] = m;
-			saveMeds();
+			saveMeds(meds);
 			showtoast("Details saved", "info");
 		});
 }
@@ -117,3 +124,5 @@ document.querySelectorAll(".main-page").forEach((element) => {
 		medsDetailsEl.style.display = "block";
 	});
 });
+
+renderList();
