@@ -106,16 +106,19 @@
 				</p>
 				<p>
 					Your medication should be saved in the sidebar, click in the
-					name of the medication you want to change or see the
-					information of.
+					name of the medication you want to change the information or
+					see the information of.
 				</p>
 			</div>
-			<div
-				class="med-details"
-				id="medDetails"
-				style="display: none"
-			></div>
+			<div class="med-details" id="medDetails"></div>
 		</main>
+		<div id="popup" class="popup-overlay">
+			<div class="popup-content">
+				<button class="popup-close" onclick="closePopup()">✖</button>
+				<div id="popupBody"></div>
+			</div>
+		</div>
+
 		<script>
 			// Sidebar Switch
 			const sidebarSwitch = document.querySelector(".sidebar-switch");

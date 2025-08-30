@@ -1,4 +1,5 @@
 // Meds and form things
+// opacity:1
 const formEl = document.getElementById("medForm");
 const medsEl = document.getElementById("medList");
 const startPageEl = document.getElementById("startPage");
@@ -26,13 +27,24 @@ function saveMeds(meds) {
 	);
 }
 
+function removeMed(medName) {
+	meds = loadMeds();
+	meds = meds.filter((item) => {
+		return item.medication != medName;
+	});
+	saveMeds(meds);
+	renderList();
+	startPageEl.style.display = "block";
+	medsDetailsEl.style.display = "none";
+}
+
 function renderList() {
 	const meds = loadMeds();
 	medsEl.innerHTML = meds.length
 		? meds
 				.map((m, i) => {
 					const label = `${i + 1}. ${m.medication}`;
-					return `<div class="med-item" onclick="openMed(${i})">${label}</div>`;
+					return `<div class="med-item" onclick="openMed(${i})"><span>${label}</span> <div class="close-icon" id="closeIcon" onclick="removeMed('${m.medication}');">✖</div></div>`;
 				})
 				.join("")
 		: '<div class="no-meds">No medications saved.</div>';
@@ -54,8 +66,11 @@ function openMed(index) {
 
 	medsDetailsEl.innerHTML = `
 		<div class="card">
-			<h1>${index + 1}. ${m.medication} ${m.weight}${m.weightType} ${m.when}</h1>
-			<p>Since: ${m.startDate} (${diffDays} ${diffDays == 1 ? "day" : "days"} taking ${m.medication}).</p>
+			<div class="header">
+				<h1>${index + 1}. ${m.medication} ${m.weight}${m.weightType} ${m.when}</h1>
+				<p>Since: ${m.startDate} (${diffDays} ${diffDays == 1 ? "day" : "days"} taking ${m.medication}).</p>
+			</div>
+			<div class="edit-button" onclick="editMed('${m.medication}')"><span>✐</span></div>
 			<form id="detailsForm">
 				<div class="form-group">
 					<label for="expected">Expected reaction</label>
@@ -92,6 +107,61 @@ function openMed(index) {
 		});
 }
 
+function closePopup() {
+	document.getElementById("popup").style.display = "none";
+}
+
+function editMed(medName) {
+	const meds = loadMeds();
+	const med = meds.find((m) => m.medication == medName);
+	if (!med) {
+		return;
+	}
+
+	document.getElementById("popupBody").innerHTML = `
+		<h2>Edit ${med.medication} information</h2>
+		<form id="editMedForm">
+			<label for="when">When:</label>
+			<input type="text" name="when" value="${med.when}" required />
+
+			<label for="when">Weight:</label>
+			<input type="number" name="weight" value="${med.weight}" required />
+
+			<label for="weightType">Weight type:</label>
+			<input
+				type="text"
+				name="weightType"
+				value="${med.weightType}"
+				required
+			/>
+
+			<button type="submit">Save</button>
+		</form>
+	`;
+
+	document.getElementById("popup").style.display = "flex";
+
+	const editFormEl = document.getElementById("editMedForm");
+
+	editFormEl.addEventListener("submit", (event) => {
+		event.preventDefault();
+		const fd = new FormData(event.target);
+		med.when = fd.get("when");
+		med.weight = fd.get("weight");
+		med.weightType = fd.get("weightType");
+
+		saveMeds(meds);
+		renderList();
+		openMed(
+			meds.findIndex((m) => {
+				return m.medication == med.medication;
+			}),
+		);
+		closePopup();
+		showtoast(`${med.medication} updated correctly.`, "success");
+	});
+}
+
 // Actions
 startDateEl.value = todayISO();
 
@@ -120,8 +190,8 @@ formEl.addEventListener("submit", (event) => {
 
 document.querySelectorAll(".main-page").forEach((element) => {
 	element.addEventListener("click", () => {
-		startPageEl.style.display = "none";
-		medsDetailsEl.style.display = "block";
+		startPageEl.style.display = "block";
+		medsDetailsEl.style.display = "none";
 	});
 });
 
